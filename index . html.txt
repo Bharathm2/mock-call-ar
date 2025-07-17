@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mock Call App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    h1, h2 {
+      color: #2c3e50;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-top: 15px;
+      font-size: 16px;
+      padding: 10px;
+    }
+
+    #scenario-container {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Medical Billing AR Caller Training</h1>
+  <p>Welcome to the Mock Call Simulation Tool</p>
+  <button onclick="startCall()">Start Mock Call</button>
+
+  <div id="call-area" style="display:none;">
+    <h2>Mock Call Scenario</h2>
+    <div id="scenario-container">
+      <h3 id="scenario-title"></h3>
+      <p id="scenario-script"></p>
+    </div>
+
+    <textarea id="note-area" placeholder="Type your AR call notes here..."></textarea><br>
+    <button onclick="nextScenario()">Next Call</button>
+  </div>
+
+  <script>
+    const scenarios = [
+      {
+        title: "Denial: CO-45 (Fee Schedule Adjustment)",
+        script: "Payer: The billed amount exceeds our allowed fee schedule. Allowed amount is $75. You billed $100. The difference is a contractual adjustment."
+      },
+      {
+        title: "Denial: CO-29 (Past Filing Limit)",
+        script: "Payer: The claim was submitted beyond the timely filing limit. No payment is issued for this claim."
+      },
+      {
+        title: "Denial: CO-16 (Missing Information)",
+        script: "Payer: Claim denied due to missing patient date of birth. Please resubmit the claim with complete information."
+      },
+      {
+        title: "Denial: PR-1 (Deductible)",
+        script: "Payer: The claim was applied to the patient’s deductible. No payment made from insurance."
+      },
+      {
+        title: "Denial: OA-23 (Not Covered by Plan)",
+        script: "Payer: The service rendered is not covered under the patient’s current insurance policy."
+      }
+    ];
+
+    let currentScenario = 0;
+
+    function startCall() {
+      document.querySelector("button").style.display = "none";
+      document.getElementById("call-area").style.display = "block";
+      loadScenario();
+    }
+
+    function loadScenario() {
+      if (currentScenario < scenarios.length) {
+        document.getElementById("scenario-title").innerText = scenarios[currentScenario].title;
+        document.getElementById("scenario-script").innerText = scenarios[currentScenario].script;
+      } else {
+        document.getElementById("scenario-container").innerHTML = "<h3>No more mock calls available.</h3>";
+        document.getElementById("note-area").style.display = "none";
+      }
+    }
+
+    function nextScenario() {
+      currentScenario++;
+      loadScenario();
+    }
+  </script>
+</body>
+</html>
